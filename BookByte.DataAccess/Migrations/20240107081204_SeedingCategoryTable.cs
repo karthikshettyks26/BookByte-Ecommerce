@@ -4,7 +4,7 @@
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace BookByte.Migrations
+namespace BookByte.DataAccess.Migrations
 {
     /// <inheritdoc />
     public partial class SeedingCategoryTable : Migration

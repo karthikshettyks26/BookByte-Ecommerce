@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace BookByte.Migrations
+namespace BookByte.DataAccess.Migrations
 {
     /// <inheritdoc />
     public partial class AddCategoryTableToDb : Migration

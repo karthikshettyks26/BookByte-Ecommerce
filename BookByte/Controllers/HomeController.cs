@@ -1,4 +1,4 @@
-using BookByte.Models;
+using BookByte.Models.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 

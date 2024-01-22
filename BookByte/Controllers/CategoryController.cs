@@ -1,5 +1,5 @@
-﻿using BookByte.Data;
-using BookByte.Models;
+﻿using BookByte.DataAccess.Data;
+using BookByte.Models.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookByte.Controllers

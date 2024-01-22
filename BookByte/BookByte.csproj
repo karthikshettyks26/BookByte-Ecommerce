@@ -65,4 +65,10 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BookByte.DataAccess\BookByte.DataAccess.csproj" />
+    <ProjectReference Include="..\BookByte.Models\BookByte.Models.csproj" />
+    <ProjectReference Include="..\BookByte.Utility\BookByte.Utility.csproj" />
+  </ItemGroup>
+
 </Project>

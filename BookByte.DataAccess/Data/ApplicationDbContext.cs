@@ -1,7 +1,7 @@
-﻿using BookByte.Models;
+﻿using BookByte.Models.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace BookByte.Data
+namespace BookByte.DataAccess.Data
 {
     public class ApplicationDbContext : DbContext
     {
