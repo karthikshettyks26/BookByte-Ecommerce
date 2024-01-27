@@ -3,7 +3,7 @@ using BookByte.DataAccess.Repository.IRepository;
 using BookByte.Models.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BookByte.Controllers
+namespace BookByte.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class CategoryController : Controller
