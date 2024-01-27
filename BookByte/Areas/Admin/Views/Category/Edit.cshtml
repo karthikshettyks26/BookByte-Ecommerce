@@ -1,5 +1,4 @@
-﻿@model Category
-
+﻿@model BookByte.Models.Models.Category
 
 <div class="card shadow border-0 mt-4">
     <div class="card-header bg-secondary bg-gradient m-lg-0 py-3">
@@ -13,21 +12,22 @@
     <div class="card-body p-4">
         <form method="post">
             <div class="border p-3 mt-4">
-                @* <div asp-validation-summary="ModelOnly" class="text-danger"></div> *@
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-floating py-2 col-12">
-                    <input asp-for="Name" type="text"  disabled class="form-control border-0 shadow" />
+                    <input asp-for="Name" type="text" class="form-control border-0 shadow" />
                     <label asp-for="Name" class="ms-2"></label>
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
+
                 <div class="form-floating py-2 col-12">
-                    <input asp-for="DisplayOrder" type="number" disabled class="form-control border-0 shadow" />
+                    <input asp-for="DisplayOrder" type="number" class="form-control border-0 shadow" />
                     <label asp-for="DisplayOrder" class="ms-2"></label>
                     <span asp-validation-for="DisplayOrder" class="text-danger"></span>
                 </div>
 
                 <div class="row pt-2">
                     <div class="col-6 col-md-3">
-                        <button type="submit" class="btn btn-danger form-control">Delete</button>
+                        <button type="submit" class="btn btn-primary form-control">Update</button>
                     </div>
                     <div class="col-6 col-md-3">
                         <a asp-controller="Category" asp-action="Index" class="btn btn-outline-secondary border form-control">
@@ -35,15 +35,14 @@
                         </a>
                     </div>
                 </div>
+
+
+
             </div>
         </form>
     </div>
 
 </div>
-
-
-
-
 
 @* Client Side Validation *@
 @section Scripts {

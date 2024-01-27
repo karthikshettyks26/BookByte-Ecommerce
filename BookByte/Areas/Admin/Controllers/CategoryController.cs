@@ -3,15 +3,13 @@ using BookByte.DataAccess.Repository.IRepository;
 using BookByte.Models.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BookByte.Areas.Admin.Controllers
+namespace BookByte.Controllers
 {
     [Area("Admin")]
     public class CategoryController : Controller
     {
         //private readonly ApplicationDbContext _db;
-        //private readonly ICategoryRepository _categoryRepo;
         private readonly IUnitOfWork _unitOfWork;
-
         public CategoryController(IUnitOfWork db)
         {
             _unitOfWork = db;
@@ -32,7 +30,7 @@ namespace BookByte.Areas.Admin.Controllers
         public IActionResult Create(Category obj)
         {
             //Custom Validation
-            if (obj.Name == obj.DisplayOrder.ToString())
+            if(obj.Name == obj.DisplayOrder.ToString())
             {
                 ModelState.AddModelError("name", "The Display Order cannot exactly match the Name.");
             }
@@ -48,23 +46,23 @@ namespace BookByte.Areas.Admin.Controllers
                 TempData["Success"] = "Category created successfully!";
                 return RedirectToAction("Index");
             }
-
+            
             return View(obj);
-
+            
         }
 
         public IActionResult Edit(int? id)
         {
-            if (id == null || id == 0)
+            if(id== null || id == 0)
             {
                 return NotFound();
             }
             Category? category = _unitOfWork.Category.Get(u => u.Id == id);
             //Category? categoryFromDb1 = _db.Categories.FirstOrDefault(u => u.Id==id);
             //Category? categoryFromDb2 = _db.Categories.Where(u => u.Id == id).FirstOrDefault();
-            if (category == null)
-            {
-                return NotFound();
+            if (category == null) 
+            { 
+                return NotFound(); 
             }
             return View(category);
         }
@@ -109,11 +107,11 @@ namespace BookByte.Areas.Admin.Controllers
             return View(category);
         }
 
-        [HttpPost, ActionName("Delete")]
+        [HttpPost,ActionName("Delete")]
         public IActionResult DeletePOST(int? id)
         {
             Category? obj = _unitOfWork.Category.Get(u => u.Id == id);
-            if (obj == null)
+            if (obj== null)
             {
                 return NotFound();
             }
