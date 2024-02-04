@@ -20,22 +20,39 @@ namespace BookByte.DataAccess.Repository
             _db = db;
             //to make generic, when we dbset now it will point to T
             this.dbSet = _db.Set<T>();
+            //to include values using foriegn key
+            _db.Products.Include(u => u.Category);
         }
         public void Add(T entity)
         {
             dbSet.Add(entity);
         }
 
-        public T Get(Expression<Func<T, bool>> filter)
+        public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null)
         {
             IQueryable<T> query = dbSet;
+            if (includeProperties != null)
+            {
+                foreach (var includeProp in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProp);
+                }
+            }
             query = query.Where(filter);
             return query.FirstOrDefault();
         }
 
-        public IEnumerable<T> GetAll()
+        //Category, covertype
+        public IEnumerable<T> GetAll(string? includeProperties = null)
         {
             IQueryable<T> query = dbSet;
+            if(includeProperties != null)
+            {
+                foreach(var includeProp in includeProperties.Split(new char[] { ',' },StringSplitOptions.RemoveEmptyEntries)) 
+                { 
+                    query = query.Include(includeProp);
+                }
+            }
             return query.ToList();
         }
 
