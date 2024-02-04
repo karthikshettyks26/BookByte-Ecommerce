@@ -21,6 +21,7 @@ namespace BookByte.Areas.Admin.Controllers
             return View(objCategoryList);
         }
 
+        //If you dont mention anything then it is Get call.
         public IActionResult Create()
         {
             return View();
