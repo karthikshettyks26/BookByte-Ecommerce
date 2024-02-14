@@ -96,51 +96,51 @@ namespace BookByte.Areas.Admin.Controllers
                 if (productVM.Product.Id == null ||  productVM.Product.Id == 0)
                 {
                     _unitOfWork.Product.Add(productVM.Product);
-                    _unitOfWork.Save();
                     TempData["Success"] = "Product created successfully";
                 }
                 else
                 {
                     _unitOfWork.Product.Update(productVM.Product);
-                    _unitOfWork.Save();
                     TempData["Success"] = "Product updated successfully";
                 }
-                
+                _unitOfWork.Save();
                 return RedirectToAction("Index");
             }
 
             return View(productVM);
         }
 
-        public IActionResult Delete(int? id)
-        {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
+        //public IActionResult Delete(int? id)
+        //{
+        //    if (id == null || id == 0)
+        //    {
+        //        return NotFound();
+        //    }
 
-            Product? product = _unitOfWork.Product.Get(u => u.Id == id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-            return View(product);
-        }
+        //    Product? product = _unitOfWork.Product.Get(u => u.Id == id);
+        //    if (product == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return View(product);
+        //}
 
-        [HttpPost]
-        [ActionName("Delete")]
-        public IActionResult DeletePost(int? id)
-        {
-            Product? product = _unitOfWork.Product.Get(u => u.Id == id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-            _unitOfWork.Product.Remove(product);
-            _unitOfWork.Save();
-            TempData["Success"] = "Product deleted successfully!";
-            return RedirectToAction("Index");
-        }
+        //[HttpPost]
+        //[ActionName("Delete")]
+        //public IActionResult DeletePost(int? id)
+        //{
+        //    Product? product = _unitOfWork.Product.Get(u => u.Id == id);
+        //    if (product == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    _unitOfWork.Product.Remove(product);
+        //    _unitOfWork.Save();
+        //    TempData["Success"] = "Product deleted successfully!";
+        //    return RedirectToAction("Index");
+        //}
+
+        //we can remove delete view page also.
 
 
         #region API CALLS
@@ -151,6 +151,33 @@ namespace BookByte.Areas.Admin.Controllers
 
             return Json(new { data = objProductList });
         }
+
+        [HttpDelete]
+        public IActionResult Delete(int? id)
+        {
+            var productToBeDeleted = _unitOfWork.Product.Get(u => u.Id == id);
+            if(productToBeDeleted == null)
+            {
+                return Json(new { success = false, message = "Erroe while deleting" });
+            }
+
+            if (!string.IsNullOrEmpty(productToBeDeleted.ImageURL))
+            {
+                //delete the image
+                var oldImagePath = Path.Combine(_webHostEnvironment.WebRootPath, productToBeDeleted.ImageURL.TrimStart('\\'));
+
+                if (System.IO.File.Exists(oldImagePath))
+                {
+                    System.IO.File.Delete(oldImagePath);
+                }
+            }
+                
+            _unitOfWork.Product.Remove(productToBeDeleted); 
+            _unitOfWork.Save();
+
+            return Json(new { success = true, message = "Delete Successful" });
+        }
+
         #endregion
 
     }
