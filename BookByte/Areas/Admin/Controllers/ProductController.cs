@@ -158,7 +158,7 @@ namespace BookByte.Areas.Admin.Controllers
             var productToBeDeleted = _unitOfWork.Product.Get(u => u.Id == id);
             if(productToBeDeleted == null)
             {
-                return Json(new { success = false, message = "Erroe while deleting" });
+                return Json(new { success = false, message = "Error while deleting" });
             }
 
             if (!string.IsNullOrEmpty(productToBeDeleted.ImageURL))
