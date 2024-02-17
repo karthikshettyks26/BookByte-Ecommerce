@@ -1,9 +1,10 @@
 ﻿using BookByte.Models.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookByte.DataAccess.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext //DbContext
     {
         //Constructor
         //:base(option) is used so that whatever we configure in options will be passed to base class of 'DbContext'.
@@ -28,6 +29,9 @@ namespace BookByte.DataAccess.Data
         //used to seed the data // Initial dummy data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //configuration after IdentityDbContext
+            base.OnModelCreating(modelBuilder);
+
             #region Categrory
             modelBuilder.Entity<Category>().HasData(
                 new Category { Id = 1, Name = "Action", DisplayOrder = 1 },
