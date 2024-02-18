@@ -1,10 +1,11 @@
 ﻿using BookByte.Models.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookByte.DataAccess.Data
 {
-    public class ApplicationDbContext : IdentityDbContext //DbContext
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser> //DbContext
     {
         //Constructor
         //:base(option) is used so that whatever we configure in options will be passed to base class of 'DbContext'.
@@ -25,6 +26,7 @@ namespace BookByte.DataAccess.Data
         //use smd : update-database to reflect the table in the database.
 
         public DbSet<Product> Products { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
         //used to seed the data // Initial dummy data
         protected override void OnModelCreating(ModelBuilder modelBuilder)

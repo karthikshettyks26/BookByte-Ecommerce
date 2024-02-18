@@ -1,6 +1,8 @@
 ﻿using BookByte.DataAccess.Repository.IRepository;
 using BookByte.Models.Models;
 using BookByte.Models.ViewModels;
+using BookByte.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -9,6 +11,7 @@ using System.Security.Cryptography.Xml;
 namespace BookByte.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin)]
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
