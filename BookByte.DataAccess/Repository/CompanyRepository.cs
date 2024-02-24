@@ -1,4 +1,5 @@
 ﻿using BookByte.DataAccess.Data;
+using BookByte.DataAccess.Repository.IRepository;
 using BookByte.Models.Models;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookByte.DataAccess.Repository.IRepository
+namespace BookByte.DataAccess.Repository
 {
     internal class CompanyRepository : Repository<Company>, ICompanyRepository
     {
