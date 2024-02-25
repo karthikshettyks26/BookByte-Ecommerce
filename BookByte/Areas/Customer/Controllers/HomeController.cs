@@ -1,7 +1,10 @@
 using BookByte.DataAccess.Repository.IRepository;
 using BookByte.Models.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace BookByte.Areas.Customer.Controllers
 {
@@ -25,8 +28,42 @@ namespace BookByte.Areas.Customer.Controllers
 
         public IActionResult Details(int productId)
         {
-            Product product = _unitOfWork.Product.Get(u=> u.Id == productId, includeProperties: "Category");
-            return View(product);
+            ShoppingCart cart = new()
+            {
+                Product = _unitOfWork.Product.Get(u => u.Id == productId, includeProperties: "Category"),
+                ProductId = productId,
+                Count = 1,
+            };
+
+            return View(cart);
+        }
+
+        [HttpPost]
+        //user should be logged in to add item to cart.
+        [Authorize]
+        public IActionResult Details(ShoppingCart shoppingCart)
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            shoppingCart.ApplicationUserId = userId;
+
+            ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.Get(u=> u.ApplicationUserId == userId && u.ProductId == shoppingCart.ProductId);
+            if(cartFromDb != null)
+            {
+                //shopping cart exists
+                cartFromDb.Count += shoppingCart.Count;
+                _unitOfWork.ShoppingCart.Update(cartFromDb);
+            }
+            else
+            {
+                //new cart record
+                _unitOfWork.ShoppingCart.Add(shoppingCart);
+            }
+
+            TempData["Success"] = "Cart updated successfully!";
+
+            _unitOfWork.Save();
+            return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Privacy()
