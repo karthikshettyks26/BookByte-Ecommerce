@@ -80,7 +80,9 @@ namespace BookByte.Areas.Customer.Controllers
             ShoppingCartVM.OrderHeader.OrderDate = System.DateTime.Now;
             ShoppingCartVM.OrderHeader.ApplicationUserId = userId;
 
-			ShoppingCartVM.OrderHeader.ApplicationUser = _unitOfWork.ApplicationUser.Get(u => u.Id == userId);
+            //while adding new value, make sure you dont use existing navigation property
+			//ShoppingCartVM.OrderHeader.ApplicationUser = _unitOfWork.ApplicationUser.Get(u => u.Id == userId);
+            ApplicationUser applicationUser = _unitOfWork.ApplicationUser.Get(u => u.Id == userId);
 
 			foreach (var cart in ShoppingCartVM.ShoppingCartList)
 			{
@@ -89,7 +91,7 @@ namespace BookByte.Areas.Customer.Controllers
 			}
 
             //check whether user is company user
-            if(ShoppingCartVM.OrderHeader.ApplicationUser.CompanyId.GetValueOrDefault() == 0)
+            if(applicationUser.CompanyId.GetValueOrDefault() == 0)
             {
                 //it is regular customer account and we need to capture payment.
                 ShoppingCartVM.OrderHeader.PaymentStatus = SD.PaymentStatusPending;
@@ -119,9 +121,13 @@ namespace BookByte.Areas.Customer.Controllers
             }
 
 
-			return View(ShoppingCartVM);
+			return RedirectToAction(nameof(OrderConfirmation),new {id = ShoppingCartVM.OrderHeader.Id});
 		}
 
+        public IActionResult OrderConfirmation(int id)
+        {
+            return View(id);
+        }
 
 
 		public IActionResult Plus(int cartId)
