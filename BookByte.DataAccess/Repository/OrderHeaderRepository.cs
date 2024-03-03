@@ -17,9 +17,38 @@ namespace BookByte.DataAccess.Repository
         {
             _db = db;
         }
-        void IOrderHeaderRepository.Update(OrderHeader orderHeader)
+
+		void IOrderHeaderRepository.Update(OrderHeader orderHeader)
         {
             _db.OrderHeaders.Update(orderHeader);
         }
-    }
+
+		public void UpdateStatus(int id, string orderStatus, string? paymentStatus = null)
+		{
+			var orderHeaderFromDb = _db.OrderHeaders.FirstOrDefault(u => u.Id == id);
+			if(orderHeaderFromDb != null)
+			{
+				orderHeaderFromDb.OrderStatus = orderStatus;
+				if (!string.IsNullOrEmpty(paymentStatus))
+				{
+					orderHeaderFromDb.PaymentStatus = paymentStatus; 
+				}
+			}
+		}
+
+		public void UpdateStripePaymentId(int id, string sessionId, string paymentIntentId)
+		{
+			var orderHeaderFromDb = _db.OrderHeaders.FirstOrDefault(u => u.Id == id);
+			if(!string.IsNullOrEmpty(sessionId))
+			{
+				orderHeaderFromDb.SessionId = sessionId;
+			}
+
+			if (!string.IsNullOrEmpty(paymentIntentId))
+			{
+				orderHeaderFromDb.PaymentIntentId = paymentIntentId;
+				orderHeaderFromDb.PaymentDate = DateTime.Now;
+			}
+		}
+	}
 }
