@@ -38,8 +38,9 @@ function loadDataTable(status) {
                     </div>`
                 },
                 "width": "10%"
-            } 
-        ]
+            },
+        ],
+        "bDestroy": true
     });
 }
 

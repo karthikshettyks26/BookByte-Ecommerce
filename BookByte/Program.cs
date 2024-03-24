@@ -23,6 +23,17 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.LogoutPath = $"/Identity/Account/Logout";
     options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
 });
+
+//session
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(100);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+    
+
 //To tell the application we also have razor pages for Identity.
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
@@ -48,6 +59,9 @@ app.UseRouting();
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseSession();
+
 app.MapRazorPages();
 
 app.MapControllerRoute(
