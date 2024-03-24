@@ -12,7 +12,7 @@ namespace BookByte.DataAccess.Repository.IRepository
         // T - Category
         IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter=null,string? includeProperties = null);
         //Expression<Func<T, bool>> this is the generix way to write LINQ. to get any record we can add particular filter in this way.
-        T Get(Expression<Func<T, bool>> filter, string? includeProperties = null,bool track=false);
+        T Get(Expression<Func<T, bool>> filter, string? includeProperties = null, bool tracked = false);
         void Add(T entity);
         void Remove(T entity);
         void RemoveRange(IEnumerable<T> entity);

@@ -28,10 +28,10 @@ namespace BookByte.DataAccess.Repository
             dbSet.Add(entity);
         }
 
-        public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null, bool track = false)
+        public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null, bool tracked = false)
         {
             IQueryable<T> query;
-            if (track)
+            if (tracked)
                  query = dbSet;
             else
                 query = dbSet.AsNoTracking();
@@ -48,6 +48,8 @@ namespace BookByte.DataAccess.Repository
             
             return query.FirstOrDefault();
         }
+
+       
 
         //Category, covertype
         public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null,string? includeProperties = null)
