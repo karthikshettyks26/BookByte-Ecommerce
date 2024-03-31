@@ -138,7 +138,9 @@ namespace BookByte.Areas.Admin.Controllers
 			OrderVM.OrderDetail = _unitOfWork.OrderDetail.GetAll(u => u.OrderHeaderId == OrderVM.OrderHeader.Id, includeProperties: "Product");
 
             #region Stripe Create Session
-            var domain = "https://localhost:44317/";
+            //Request.Scheme returns http or https; Request.Host.Value returns host
+            //var domain = "https://localhost:44317/";
+            var domain =  Request.Scheme + "://"+ Request.Host.Value +"/";
 
             var options = new Stripe.Checkout.SessionCreateOptions
             {

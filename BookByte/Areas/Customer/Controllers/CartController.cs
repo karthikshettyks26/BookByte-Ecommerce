@@ -123,9 +123,11 @@ namespace BookByte.Areas.Customer.Controllers
 
 			if(applicationUser.CompanyId.GetValueOrDefault() == 0)
             {
-				//it id regular user, and we need to capture stripe payment logic.
-				#region Stripe Create Session
-				var domain = "https://localhost:44317/";
+                //it id regular user, and we need to capture stripe payment logic.
+                #region Stripe Create Session
+                //Request.Scheme returns http or https; Request.Host.Value returns host
+                //var domain = "https://localhost:44317/";
+                var domain = Request.Scheme + "://" + Request.Host.Value + "/";
 
                 var options = new Stripe.Checkout.SessionCreateOptions
                 {
