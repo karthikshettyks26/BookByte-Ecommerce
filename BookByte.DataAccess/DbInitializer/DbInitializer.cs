@@ -50,24 +50,23 @@ namespace BookByte.DataAccess.DbInitializer
                 _roleManager.CreateAsync(new IdentityRole(SD.Role_Company)).GetAwaiter().GetResult();
                 _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin)).GetAwaiter().GetResult();
                 _roleManager.CreateAsync(new IdentityRole(SD.Role_Employee)).GetAwaiter().GetResult();
-                
+
+                //if roles are not created, then we will create admin user as well.
+                _userManager.CreateAsync(new ApplicationUser
+                {
+                    UserName = "admin@gmail.com",
+                    Email = "admin@gmail.com",
+                    Name = "Karthik Shetty",
+                    PhoneNumber = "1234567890",
+                    StreetAddress = "test Street",
+                    State = "testState",
+                    PostalCode = "12345",
+                    City = "testCity",
+                }, "Admin@123").GetAwaiter().GetResult();
+
+                ApplicationUser user = _db.ApplicationUsers.FirstOrDefault(u => u.Email == "admin@gmail.com");
+                _userManager.AddToRoleAsync(user, SD.Role_Admin).GetAwaiter().GetResult();
             }
-
-            //if roles are not created, then we will create admin user as well.
-            _userManager.CreateAsync(new ApplicationUser
-            {
-                UserName = "admin@gmail.com",
-                Email = "admin@gmail.com",
-                Name = "Karthik Shetty",
-                PhoneNumber = "1234567890",
-                StreetAddress = "test Street",
-                State = "testState",
-                PostalCode = "12345",
-                City = "testCity",
-            }, "Admin@123").GetAwaiter().GetResult();
-
-            ApplicationUser user = _db.ApplicationUsers.FirstOrDefault(u => u.Email == "admin@gmail.com");
-            _userManager.AddToRoleAsync(user, SD.Role_Admin).GetAwaiter().GetResult();
 
             return;
         }
