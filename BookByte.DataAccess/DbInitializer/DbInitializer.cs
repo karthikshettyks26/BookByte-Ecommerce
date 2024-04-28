@@ -28,7 +28,7 @@ namespace BookByte.DataAccess.DbInitializer
         }
 
         public void Initialize()
-        {
+        { 
 
             //migration if they are not applied.
             try
@@ -68,7 +68,7 @@ namespace BookByte.DataAccess.DbInitializer
                 _userManager.AddToRoleAsync(user, SD.Role_Admin).GetAwaiter().GetResult();
             }
 
-            
+            return;
         }
     }
 }
